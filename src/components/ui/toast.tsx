@@ -60,10 +60,6 @@ export const Toast = component$<ToastProps>(({
     }
   `);
 
-  const handleClose = $(() => {
-    onClose$?.();
-  });
-
   return (
     <div 
       class={cn(
@@ -76,7 +72,7 @@ export const Toast = component$<ToastProps>(({
       {title && <div class="font-semibold">{title}</div>}
       {description && <div class="text-sm text-muted-foreground">{description}</div>}
       <button 
-        onClick$={handleClose}
+        onClick$={$(() => onClose$?.())}
         class="close-button"
         aria-label="Close notification"
       >
