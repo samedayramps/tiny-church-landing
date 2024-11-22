@@ -1,0 +1,3 @@
+export const welcomeEmailTemplate = (email: string) => `
+// ... your HTML template code ...
+`; 

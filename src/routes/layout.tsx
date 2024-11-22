@@ -2,10 +2,12 @@ import { component$, Slot, useVisibleTask$ } from "@builder.io/qwik";
 import { Navigation } from "~/components/layout/navigation";
 import { Footer } from "~/components/layout/footer";
 import { useTheme } from "~/hooks/use-theme";
-import { Analytics } from "@vercel/analytics/react";
+import { Toast, ToastContainer } from "~/components/ui/toast";
+import { useToastProvider } from "~/hooks/use-toast-store";
 
 export default component$(() => {
   const { theme } = useTheme();
+  const toastStore = useToastProvider();
 
   // Handle system theme changes
   // eslint-disable-next-line qwik/no-use-visible-task
@@ -39,7 +41,20 @@ export default component$(() => {
           <Slot />
         </main>
         <Footer />
-        <Analytics />
+        
+        <ToastContainer>
+          {toastStore.toasts.map((t) => (
+            <Toast 
+              key={t.id}
+              {...t}
+              onClose$={() => {
+                toastStore.toasts = toastStore.toasts.filter(
+                  (toast) => toast.id !== t.id
+                );
+              }}
+            />
+          ))}
+        </ToastContainer>
       </div>
     </>
   );
