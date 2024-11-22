@@ -1,0 +1,1 @@
+import{d as l,k as x,S as o}from"./q-D-73Og1-.js";import{c as r}from"./q-R7z71oPB.js";import"./q-naTD_Kaw.js";const t=s=>l("div",{class:r("mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8",s.class)},null,x(o,null,3,"qe_0"),1,"qe_1");export{t as s_yxHirGEIpl8};
