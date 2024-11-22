@@ -2,6 +2,7 @@ import { component$, Slot, useVisibleTask$ } from "@builder.io/qwik";
 import { Navigation } from "~/components/layout/navigation";
 import { Footer } from "~/components/layout/footer";
 import { useTheme } from "~/hooks/use-theme";
+import { Analytics } from "@vercel/analytics/react";
 
 export default component$(() => {
   const { theme } = useTheme();
@@ -20,12 +21,26 @@ export default component$(() => {
   });
 
   return (
-    <div class="flex min-h-screen flex-col antialiased bg-background">
-      <Navigation />
-      <main class="flex-1 relative scroll-smooth">
-        <Slot />
-      </main>
-      <Footer />
-    </div>
+    <>
+      {/* Google Tag Manager (noscript) */}
+      <noscript>
+        <iframe 
+          src="https://www.googletagmanager.com/ns.html?id=GTM-KRJZCW2W"
+          height="0" 
+          width="0" 
+          style={{ display: 'none', visibility: 'hidden' }}
+        />
+      </noscript>
+      {/* End Google Tag Manager (noscript) */}
+      
+      <div class="flex min-h-screen flex-col antialiased bg-background">
+        <Navigation />
+        <main class="flex-1 relative scroll-smooth">
+          <Slot />
+        </main>
+        <Footer />
+        <Analytics />
+      </div>
+    </>
   );
 });
