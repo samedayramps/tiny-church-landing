@@ -2,7 +2,6 @@ import type { RequestHandler } from "@builder.io/qwik-city";
 import { Resend } from "resend";
 import { welcomeEmailTemplate } from "~/lib/email-templates";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const AUDIENCE_ID = "589aac68-2790-486e-bb58-20218cf66f5e";
 
 interface SubscribeBody {
@@ -11,7 +10,14 @@ interface SubscribeBody {
 
 export const onPost: RequestHandler = async ({ json, parseBody, env }) => {
   try {
-    console.log('API Key exists:', !!process.env.RESEND_API_KEY);
+    const resendApiKey = env.get('RESEND_API_KEY');
+    if (!resendApiKey) {
+      throw new Error('RESEND_API_KEY is not configured');
+    }
+
+    const resend = new Resend(resendApiKey);
+
+    console.log('API Key exists:', !!resendApiKey);
     console.log('Audience ID:', AUDIENCE_ID);
 
     const body = await parseBody() as SubscribeBody;
@@ -67,11 +73,7 @@ export const onPost: RequestHandler = async ({ json, parseBody, env }) => {
 
     json(200, { success: true });
   } catch (error) {
-    console.error('Subscription error:', {
-      error,
-      message: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined
-    });
+    console.error('Subscription error:', error);
     
     json(400, { 
       success: false, 
